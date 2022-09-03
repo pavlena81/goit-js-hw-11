@@ -34,9 +34,9 @@ function onSearchForm(e) {
 
 
 }
-async function fetch() {
+async function fetch(query,page) {
   try {
-    const response = await axios.get(`?key=${KEY}&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`);
+    const response = await axios.get(`&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`);
     console.log(response);
   } catch (error) {
     console.error(error);
