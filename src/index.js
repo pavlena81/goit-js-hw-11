@@ -4,7 +4,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import fetchCards from './fetchCards';
 
 import renderGallery from './renderGallery';
- 
+
   
 const refs = {
   searchForm: document.querySelector('#search-form'),
@@ -12,7 +12,7 @@ const refs = {
   btnLoadMore: document.querySelector('.load-more'),
   
 };
-
+console.log(refs)
 const DEFAULT_CURRENT_PAGE = 1;
 
 
@@ -20,7 +20,10 @@ let page = 1;
 let query = '';
 
 let currentHits = 0;
-
+function onBtnLoadMore() {
+        page += 1;
+        
+    }
 refs.searchForm.addEventListener('submit', onSearchForm);
 refs.btnLoadMore.addEventListener('click', onBtnLoadMore); 
 
@@ -29,37 +32,37 @@ const loaderOn = () => refs.btnLoadMore.classList.add('visible');
 
 const loaderOff = () => refs.btnLoadMore.classList.remove('visible');
 
+function addCards(value, page){
+       fetchCards(value, page)
+           .then(data => {
+               console.log(data)
+              if (data.hits.length > 0) {
+                   Notify.success('Hooray! We found ${data.totalHits} images.')
+                refs.gallery.insertAdjacentHTML('beforeend',renderGallery(data.hits))
+                  
+                   console.log(renderGallery(data.hits));
+               } else
+                   Notify.failure('Sorry, ');
+               if (data.totalHits > 40) {
+                   btnLoadMore.classList.remove('is-hidden');
+               }
+           });
+ }
 
 
-
-async function onSearchForm(e) {
+ function onSearchForm(e) {
     e.preventDefault();
-    
+    console.log('hurray')
     // if (query === e.target.elements.searchQuery.value) return;
 
     query = e.target.searchQuery.value.trim();
 
     refs.gallery.innerHTML = '';
 
-        function addCards(value, page){
-       fetchCards(value, page)
-           .then(data => {
-              if (data.hits.length > 0) {
-                   Notify.success('Hooray! We found ${data.totalHits} images.'
-)
-                   renderGallery(data.hits);
-               } else
-                   Notify.failure('Sorry, ');
-               if (data.totalHits > perPage) {
-                   loadMoreBtn.classList.remove('is-hidden');
-               }
-           });
- }
+        
     
+     addCards(query,page); 
     
-    function onBtnLoadMore() {
-        page += 1;
-    }
    
 //     if (query === '') {
 //         return Notify.info(

@@ -4,7 +4,7 @@ export default function renderGallery(images) {
         .map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
             return `
     <div class="photo-card">
-        <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+            <img src="${webformatURL}" alt="${tags}" loading="lazy" />
         <div class="info">
             <a href="${largeImageURL}">
             <p class="info-item">
@@ -24,8 +24,8 @@ export default function renderGallery(images) {
       `;
         })
     .join("");
-  //return markup;
+  return markup;
 //  return countryList.innerHTML = markup;
-    refs.gallery.insertAdjacentHTML('beforeend', markup);
+    // refs.gallery.insertAdjacentHTML('beforeend', markup);
 };
 
