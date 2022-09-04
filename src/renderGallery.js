@@ -24,7 +24,7 @@ export default function renderGallery(images) {
       `;
         })
     .join("");
-  return markup;
+  //return markup;
 //  return countryList.innerHTML = markup;
     refs.gallery.insertAdjacentHTML('beforeend', markup);
 };
