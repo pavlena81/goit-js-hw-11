@@ -35,7 +35,7 @@ const refs = {
 const DEFAULT_CURRENT_PAGE = 1;
 
 let isLoad = false;
-let items = [];
+let images = [];
 let page = 1;
 let query = '';
 let currentPage = DEFAULT_CURRENT_PAGE;
@@ -56,16 +56,31 @@ const fetchData = async () => {
           (`&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`);
        console.log(response);
     
-    const data = await response.json();
+    //   const data = await response.json();
+      
+    //   if (response.totalHits === 0) {
+    //      return Notify.failure(
+    // 'Sorry, there are no images matching your search query. Please try again.'
+    //       )
+    //   } else {
+    //       renderGallery(response.hits);
+    //        Notify.failure('Hooray! We found ${data.totalHits} images.')
+    //       return response;
+    //   }
+              
+  ; 
+     
 
-    // const { data } = await axios.get(
-    //   `&q=${query}&per_page=${HITS_PER_PAGE}&page=${currentPage}`,
-    // );
+     const { data } = await axios.get(
+       `&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`,
+     );
 
-    // then
-    items = [...items, data.hits];
-    totalPages = data.totalHits / HITS_PER_PAGE;
-    renderList(data.hits);
+    //then
+      images = [...images, data.hits];
+      
+
+    totalPages = data.totalHits ;
+    renderGallery(data.hits);
   } catch (error) {
     console.log(error.message);
   }
@@ -88,6 +103,11 @@ function onSearchForm(e) {
     currentPage = DEFAULT_CURRENT_PAGE;     
     
     //currentHits = response.hits.length; 
+    if (query === '') {
+        return  Notify.info(
+    'The search string cannot be empty. Please specify your search query.'
+  );
+    }
 
 
     if (!query) return;
