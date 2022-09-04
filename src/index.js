@@ -58,17 +58,19 @@ function addCards(value, page){
     query = e.target.searchQuery.value.trim();
 
     refs.gallery.innerHTML = '';
-
+        if (query === '') {
+        return Notify.info(
+            'The search string cannot be empty. Please specify your search query.'
+        );
+    }
         
-    
-     addCards(query,page); 
+        else {
+            addCards(query,page);
+    }
+      
     
    
-//     if (query === '') {
-//         return Notify.info(
-//             'The search string cannot be empty. Please specify your search query.'
-//         );
-//     }
+//     
 //     const response = await fetchCards(query, page);
 //      currentHits = response.hits.length;
 
