@@ -45,10 +45,12 @@ function addCards(value, page){
               if (data.hits.length > 0) {
                    Notify.success(`Hooray! We found ${data.totalHits} images.`)
                 refs.gallery.insertAdjacentHTML('beforeend',renderGallery(data.hits))
-                  gallery.refresh();
-	
+                  gallery.refresh();	
                    console.log(renderGallery(data.hits));
-               } 
+               } else
+                   Notify.failure(`Sorry, there are no images matching your search query. Please try again.`)
+                   refs.btnLoadMore.classList.add('is-hidden');
+                ;
                   
                if (data.totalHits > 40) {
                   refs.btnLoadMore.classList.remove('is-hidden');                   
@@ -61,7 +63,7 @@ function addCards(value, page){
 function onSearchForm(e) {
     e.preventDefault();
     console.log('hurray')
-    // if (query === e.target.elements.searchQuery.value) return;
+     if (query === e.target.elements.searchQuery.value) return;
 
     query = e.target.searchQuery.value.trim();
     page = 1;
