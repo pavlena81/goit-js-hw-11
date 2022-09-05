@@ -28,7 +28,7 @@ let query = '';
 
 let currentHits = 0;
 
-let gallery = new SimpleLightbox('.gallery a');
+
 
 refs.searchForm.addEventListener('submit', onSearchForm);
 refs.btnLoadMore.addEventListener('click', onBtnLoadMore); 
@@ -102,7 +102,12 @@ function onBtnLoadMore(e) {
            })
                     
 }
-     
+  //simplelightbox
+let gallery = new SimpleLightbox('.gallery a', {
+    captionPosition: `bottom`,
+    captionsData: "alt",
+    captionDelay: 250,
+});
 
 // When the user scrolls down 20px from the top of the document, show the myButton
 window.onscroll = function () {
