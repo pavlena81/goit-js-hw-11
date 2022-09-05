@@ -129,7 +129,7 @@ a{
     border: 1px solid #4a084a;
     border-radius: 4px;
     font-size: 16px;
-    color: #050505;
+    color: #29013b;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1),
       color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
