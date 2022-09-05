@@ -3,10 +3,10 @@ export default function renderGallery(images) {
     const markup = images
         .map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
             return `
+     <a href="${largeImageURL}">
     <div class="photo-card">
-            <img src="${webformatURL}" alt="${tags}" loading="lazy" />
+        <img  class="photo__img" src="${webformatURL}" alt="${tags}" loading="lazy" />
         <div class="info">
-            <a href="${largeImageURL}">
             <p class="info-item">
             <b>Likes</b>${likes}
             </p>
@@ -21,6 +21,7 @@ export default function renderGallery(images) {
             </p>
         </div>
     </div>
+    </a>
       `;
         })
     .join("");

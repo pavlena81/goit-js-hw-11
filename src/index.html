@@ -10,17 +10,21 @@
   <body>
     <form class="search-form" id="search-form">
       <input 
-      type="text" 
+      type="search" 
       name="searchQuery"
        autocomplete="off" 
        placeholder="Search images..." />
-      <button type="submit">Search</button>
+      <button class="search-form__btn" type="submit">Search</button>
     </form>
 
     <div class="gallery">
       <!-- Карточки изображений -->
     </div>
-    <button type="button" class="load-more">Load more</button>
+    <button type="button" class="load-more is-hidden">Load more</button>
+
+    <button id="myBtn" title="Go to top">
+      <span class="material-symbols-outlined"> arrow_circle_up </span>
+    </button>
 
     <script src="./index.js" type="module"></script>
   </body>

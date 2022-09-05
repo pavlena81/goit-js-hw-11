@@ -1,5 +1,10 @@
 import './css/styles.css';
 
+// Описан в документации
+import simpleLightbox from 'simplelightbox';
+// Дополнительный импорт стилей
+import "simplelightbox/dist/simple-lightbox.min.css";
+
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import fetchCards from './fetchCards';
 
@@ -10,8 +15,10 @@ const refs = {
   searchForm: document.querySelector('#search-form'),
   gallery: document.querySelector('.gallery'),
   btnLoadMore: document.querySelector('.load-more'),
-  
+    inputEl: document.querySelector('input'),    
 };
+
+const myButton = document.getElementById('myBtn');
 console.log(refs)
 const DEFAULT_CURRENT_PAGE = 1;
 
@@ -20,14 +27,13 @@ let page = 1;
 let query = '';
 
 let currentHits = 0;
-function onBtnLoadMore() {
-        page += 1;
-        
-    }
+
+let gallery = new SimpleLightbox('.gallery a');
+
 refs.searchForm.addEventListener('submit', onSearchForm);
 refs.btnLoadMore.addEventListener('click', onBtnLoadMore); 
 
-
+// refs.btnLoadMore.classList.add('is-hidden');
 const loaderOn = () => refs.btnLoadMore.classList.add('visible');
 
 const loaderOff = () => refs.btnLoadMore.classList.remove('visible');
@@ -37,42 +43,87 @@ function addCards(value, page){
            .then(data => {
                console.log(data)
               if (data.hits.length > 0) {
-                   Notify.success('Hooray! We found ${data.totalHits} images.')
+                   Notify.success(`Hooray! We found ${data.totalHits} images.`)
                 refs.gallery.insertAdjacentHTML('beforeend',renderGallery(data.hits))
-                  
+                  gallery.refresh();
+	
                    console.log(renderGallery(data.hits));
-               } else
-                   Notify.failure('Sorry, ');
+               } 
+                  
                if (data.totalHits > 40) {
-                   btnLoadMore.classList.remove('is-hidden');
+                  refs.btnLoadMore.classList.remove('is-hidden');                   
                }
+            
            });
  }
 
-
- function onSearchForm(e) {
+ 
+function onSearchForm(e) {
     e.preventDefault();
     console.log('hurray')
     // if (query === e.target.elements.searchQuery.value) return;
 
     query = e.target.searchQuery.value.trim();
-
+    page = 1;
     refs.gallery.innerHTML = '';
-        if (query === '') {
+    if (query === '') {
+        refs.btnLoadMore.classList.add('is-hidden');
         return Notify.info(
             'The search string cannot be empty. Please specify your search query.'
+
         );
+         
     }
         
-        else {
-            addCards(query,page);
+    else {
+        addCards(query, page);
     }
-      
-    
+}
+
+function onBtnLoadMore(e) {
+    query = refs.inputEl.value.trim();
+         
+         page += 1;
+         fetchCards(query, page)
+           .then(data => {
+               console.log(data)
+              if (data.hits.length > 0) {
+                   
+                refs.gallery.insertAdjacentHTML('beforeend',renderGallery(data.hits))
+                 gallery.refresh(); 
+                   console.log(renderGallery(data.hits));
+               } 
+               
+               if (data.totalHits <= page * 40  ) {
+                   refs.btnLoadMore.classList.add('is-hidden');
+                   return Notify.info(`We're sorry, but you've reached the end of search results.`);
+               }
+               
+           })
+                    
+}
+     
+
+// When the user scrolls down 20px from the top of the document, show the myButton
+window.onscroll = function () {
+  scrollFunction();
+};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    myButton.style.display = 'block';
+  } else {
+    myButton.style.display = 'none';
+  }
+}
+
+// When the user clicks on the myButton, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
    
-//     
-//     const response = await fetchCards(query, page);
-//      currentHits = response.hits.length;
+
 
 //   if (response.totalHits > 40) {
 //     btnLoadMore.classList.remove('is-hidden');
@@ -103,82 +154,16 @@ function addCards(value, page){
 //   }
 
 
-    // if (!query) return;
-    //     addCards();   
-    }
-
-
-//    function addCards(value, page){
-//        fetchCards(value, page)
-//            .then(data => {
-//                if (data.hits.length > 0) {
-//                    Notify.success('Hooray! We found ${data.totalHits} images.'
-//                    )
-//                    renderGallery(data.hits);
-//                } else
-//                    Notify.failure('Sorry, ');
-//                if (data.totalHits > perPage) {
-//                    loadMoreBtn.classList.remove('is-hidden');
-//                }
-//            });
-// }
-
- 
-//    refs.searchForm.addEventListener("submit", async () => {
-//   try {
-//     const users = await fetchCards();
-//     renderGallery(images);
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// });
-
-// async function fetchCards() {
- 
-
-//   const users = await Promise.all(arrayOfPromises);
-//   return users;
-// }
-
-
-//             if (response.totalHits === 0) {
-//                 return Notify.failure(
-//  'Sorry, there are no images matching your search query. Please try again.'
-//        )
-//    } else {
-//        renderGallery(data.hits);
-//        return Notify.failure('Hooray! We found ${data.totalHits} images.');          
-//    }
     
+
+
+
+ 
+
+ 
+
+
      
 
 
 
-// const fetchData = async () => {
-//   isLoad = true;
-//   loaderOn();
-
-//   try {
-//     const response = await axios.get
-//           (`&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`);
-//        console.log(response);
-    
-//     //        
-     
-//      const { data } = await axios.get(
-//        `&q=${query}&image_type=photo&orientation=horizontal&safesearch=true&page=${page}&per_page=40`,
-//      );
-         
-    
-//      // images = [...images, data.hits];
-//     //  
-//     totalPages = data.totalHits ;
-//     renderGallery(data.hits);
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-
-//   // finally
-//   loaderOff();
-//   isLoad= false;
-// };
