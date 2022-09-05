@@ -63,23 +63,22 @@ function addCards(value, page){
 function onSearchForm(e) {
     e.preventDefault();
     console.log('hurray')
-     if (query === e.target.elements.searchQuery.value) return;
+     
 
     query = e.target.searchQuery.value.trim();
     page = 1;
     refs.gallery.innerHTML = '';
     if (query === '') {
         refs.btnLoadMore.classList.add('is-hidden');
-        return Notify.info(
-            'The search string cannot be empty. Please specify your search query.'
-
-        );
+        return Notify.info('The search string cannot be empty. Please specify your search query.');
          
     }
-        
+      //if (query === e.target.elements.searchQuery.value) return;   
     else {
         addCards(query, page);
     }
+
+   
 }
 
 function onBtnLoadMore(e) {
