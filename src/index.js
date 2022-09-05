@@ -68,7 +68,7 @@ function onSearchForm(e) {
     query = e.target.searchQuery.value.trim();
     page = 1;
     refs.gallery.innerHTML = '';
-    if (query === '') {
+    if (query === '' ) {
         refs.btnLoadMore.classList.add('is-hidden');
         return Notify.info('The search string cannot be empty. Please specify your search query.');
          
@@ -128,7 +128,8 @@ function topFunction() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
-   
+
+ myButton.addEventListener('click', topFunction);  
 
 
 //   if (response.totalHits > 40) {
